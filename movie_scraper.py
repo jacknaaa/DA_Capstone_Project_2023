@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 import time
+import re
 
 
 def scrape_most_popular_movies():
@@ -28,31 +29,27 @@ def scrape_most_popular_movies():
         # with open("output1.html", "w", encoding='utf-8') as file:
         #     file.write(str(soup))
 
-        # Find relevant elements containing movie data
-
         movie_titles = [a.get_text(strip=True)
-                        for a in soup.select('.ipc-title__text')]
-        movie_ratings = [span.get_text(strip=True)
-                         for span in soup.select('.ipc-rating-star ipc-rating-star--base ipc-rating-star--imdb ratingGroup--imdb-rating')]
-        # movie_ratings = [float(span.get_text(strip=True))
-        #                  for span in soup.select('.ipc-rating-star--imdb-rating')]
+                        for a in soup.select('a.ipc-title-link-wrapper h3.ipc-title__text')]
+        movie_titles = movie_titles[:-7]
+        # print(len(movie_titles))
 
-        # for movie_title in movie_titles:
-        #     print(movie_title)
+        pattern = re.compile(r'\((.*?)\)')
+        rating = []
+        movie_ratings = [b.get_text(strip=True)
+                         for b in soup.select('span.sc-479faa3c-1 div.jlKVfJ')]
+        for movie_rating in movie_ratings:
+            rating.append(movie_rating[:3])
+        # print(len(rating))
 
-        # for movie_rating in movie_ratings:
-        #
-        print(movie_ratings)
-
-        # movie_elements = soup.find_all('h3', class_='ipc-title__text')
-        # for movie_element in movie_elements:
-        #     movie_title = movie_element.get_text()
-        #     print(movie_title)
+        movie_votecounts = [pattern.search(item).group(1) if pattern.search(
+            item) else None for item in movie_ratings]
+        # print(len(movie_votecounts))
 
         # Create a Pandas DataFrame from the scraped data
-        # movie_data = pd.DataFrame(
-        #     {'Title': movie_titles, 'Rating': movie_ratings})
-        movie_data = ""
+        movie_data = pd.DataFrame(
+            {'Title': movie_titles, 'Rating': rating, 'Vote count': movie_votecounts})
+
         return movie_data
     else:
         print(
@@ -62,3 +59,5 @@ def scrape_most_popular_movies():
 
 # Call the function to scrape data for most popular movies
 popular_movies_dataframe = scrape_most_popular_movies()
+
+print(popular_movies_dataframe.head())
