@@ -1,5 +1,18 @@
 # DA_Capstone_Project_2023
 
+# Project Setup Guide
+
+\*\*\* Note: This project requires an internet connection.
+Follow these steps to set up the project on your local machine:
+
+1. Cloned the repo to your machine, navigate to the project
+   folder in GitBash/Terminal.
+2. Create a virtual environment in the project folder. `python3 -m venv venv` [^1]
+3. Activate the virtual environment. `source venv/Scripts/activate` (Windows OS)
+4. Install the required packages. `pip install -r requirements.txt`
+5. Run the movie_scraper.py script.
+6. bokeh_plot should shows on your defult browser
+
 ## Data Dictionary
 
 ### scrape_most_popular_movies_IMDB Function Output (mov_df1)
