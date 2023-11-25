@@ -6,3 +6,4 @@ DB_CONFIG = {
     'host': 'localhost',
     'port': '5432'
 }
+TEST_MODE = "YES"
