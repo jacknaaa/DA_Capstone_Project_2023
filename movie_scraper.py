@@ -233,14 +233,6 @@ mov_df2 = scrape_most_popular_movies_rotten_tomatoes()
 ##### *******   1.	Loading data.  *******#####
 
 ##### *******   2.	Clean and operate on the data while combining them.   *******#####
-# merged_data = join_two_df_by_SQL(mov_df1, mov_df2)
-##### *******   2.	Clean and operate on the data while combining them.   *******#####
-
-
-##### *******   3.	Visualize / Present your data   *******#####
-bokeh_plot(mov_df1)
-##### *******   3.	Visualize / Present your data   *******#####
-
 
 ###########  cleaning data  ###########
 # replacing na values in college with No college
@@ -252,3 +244,11 @@ bokeh_plot(mov_df1)
 # print(popular_mov_df.isnull().sum())
 # print(popular_mov_df['Vote count'])
 ###########  cleaning data  ###########
+
+merged_data = join_two_df_by_SQL(mov_df1, mov_df2)
+##### *******   2.	Clean and operate on the data while combining them.   *******#####
+
+
+##### *******   3.	Visualize / Present your data   *******#####
+bokeh_plot(mov_df1)
+##### *******   3.	Visualize / Present your data   *******#####
