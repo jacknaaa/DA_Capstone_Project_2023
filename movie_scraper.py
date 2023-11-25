@@ -11,6 +11,7 @@ from bokeh.plotting import figure, show
 from bokeh.models import HoverTool, ColumnDataSource
 
 
+# Function to scrape data from the most popular movies page on IMDb
 def scrape_most_popular_movies_IMDB():
     """
     Scrape data from the most popular movies page on IMDb.
@@ -43,14 +44,11 @@ def scrape_most_popular_movies_IMDB():
         # Exclude the last 7 items as they are not movies
         movie_titles = movie_titles[:-7]
 
-        # Extract movie ratings using CSS selectors and regular expressions
-        # Regular expression to extract text inside parentheses
         pattern = re.compile(r'\((.*?)\)')
         rating = []
         movie_ratings = [b.get_text(strip=True)
                          for b in soup.select('span.sc-479faa3c-1 div.jlKVfJ')]
         for movie_rating in movie_ratings:
-            # Extract the first 3 characters as the rating
             rating.append(movie_rating[:3])
 
         # Extract vote counts from the movie ratings using regular expressions
@@ -68,14 +66,14 @@ def scrape_most_popular_movies_IMDB():
         return None
 
 
+# Function to scrape data from the most popular movies page on Rotten Tomatoes
 def scrape_most_popular_movies_rotten_tomatoes():
     """
     Scrape data from the most popular movies page on rottentomatoes.
 
     Returns:
-    pandas.DataFrame: DataFrame containing movie titles and ratings.
+    pandas.DataFrame: DataFrame containing movie titles and start_date.
     """
-    # URL of the most popular movies page on rotten_tomatoes
     url = 'https://www.rottentomatoes.com/browse/movies_in_theaters/'
 
     # Send a GET request to the URL with a user-agent header to mimic a web browser
@@ -89,7 +87,7 @@ def scrape_most_popular_movies_rotten_tomatoes():
         # Parse the HTML content of the page using BeautifulSoup
         soup = BeautifulSoup(response.text, 'html.parser')
 
-        # # write soup file to .html
+        # write soup file to .html
         # file1 = open("output_rtt.html", "wb")
         # file1.write(soup.encode('utf-8'))
         # file1.close()
@@ -109,13 +107,6 @@ def scrape_most_popular_movies_rotten_tomatoes():
 
         # print(mv_start_date)
 
-        # movie_ratings = [b.get_text(strip=True)
-        #                  for b in soup.select('score-icon-critic-deprecated[percentage]')]
-        # # score-icon-critic-deprecated[percentage]
-        # # score-pairs-deprecated[criticsscore]
-
-        # print(movie_ratings)
-
         # Create a Pandas DataFrame from the scraped data
         movie_data = pd.DataFrame(
             {'Title': movie_titles, 'Start Date': mv_start_date})
@@ -127,9 +118,8 @@ def scrape_most_popular_movies_rotten_tomatoes():
         return None
 
 
+# Function to join two DataFrames based on the 'Title' column using SQL
 def join_two_df_by_SQL(df1, df2):
-
-    # print(df1, df2)
 
     # Merge the two datasets based on the 'Title' column [using pandas Python to perform join data]
     merged_data = pd.merge(df1, df2, on='Title', how='inner')
@@ -152,7 +142,8 @@ def join_two_df_by_SQL(df1, df2):
 
     return merged_data
 
-# def df_to_SQL(df):
+
+def df_to_SQL(df):  # Function to insert DataFrame into PostgreSQL database
     # Extracting database connection details from the configuration
     dbname = DB_CONFIG['dbname']
     user = DB_CONFIG['user']
@@ -243,11 +234,12 @@ mov_df2 = scrape_most_popular_movies_rotten_tomatoes()
 # print(popular_mov_df.info())
 # print(popular_mov_df.isnull().sum())
 # print(popular_mov_df['Vote count'])
-###########  cleaning data  ###########
+
 
 merged_data = join_two_df_by_SQL(mov_df1, mov_df2)
-##### *******   2.	Clean and operate on the data while combining them.   *******#####
 
+###########  cleaning data  ###########
+##### *******   2.	Clean and operate on the data while combining them.   *******#####
 
 ##### *******   3.	Visualize / Present your data   *******#####
 bokeh_plot(mov_df1)
