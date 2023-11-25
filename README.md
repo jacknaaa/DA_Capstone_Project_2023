@@ -1,4 +1,8 @@
-# DA_Capstone_Project_2023
+# DA_Capstone_Project_2023 [Web Scrapping IMDb, RottenTomatoes and use bokeh to plot data on webbase]
+
+# Overview
+
+Welcome to the Data Analysis Capstone Project for 2023! This project focuses on web scraping data from IMDb and Rotten Tomatoes, utilizing Bokeh for interactive data visualization on a web-based platform.
 
 # Project Setup Guide
 
