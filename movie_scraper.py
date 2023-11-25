@@ -216,11 +216,16 @@ def bokeh_plot(df1):
 
 
 ##### *******   1.	Loading data.  *******#####
-# Call the function to scrape data for most popular movies
+# Call the function to scrape data for most popular movies IMDb
 mov_df1 = scrape_most_popular_movies_IMDB()
+print("Scrape data for most popular movies IMDb")
+print(mov_df1)
 
 # Call the function to scrape data for most popular movies
 mov_df2 = scrape_most_popular_movies_rotten_tomatoes()
+print("Scrape data for most popular movies Rotten Tomatoes")
+print(mov_df2)
+
 ##### *******   1.	Loading data.  *******#####
 
 ##### *******   2.	Clean and operate on the data while combining them.   *******#####
@@ -237,6 +242,8 @@ mov_df2 = scrape_most_popular_movies_rotten_tomatoes()
 
 
 merged_data = join_two_df_by_SQL(mov_df1, mov_df2)
+print("SQL join df1 and df2:")
+print(merged_data)
 
 ###########  cleaning data  ###########
 ##### *******   2.	Clean and operate on the data while combining them.   *******#####

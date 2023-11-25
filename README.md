@@ -64,9 +64,7 @@ Follow these steps to set up the project on your local machine:
 
 We have included three unit tests to ensure the functionality of key functions in this project. You can find these tests in the `tests` folder:
 
-1. **test_scrape_most_popular_movies_IMDB.py**: Tests the `scrape_most_popular_movies_IMDB` function.
-2. **test_scrape_most_popular_movies_rotten_tomatoes.py**: Tests the `scrape_most_popular_movies_rotten_tomatoes` function.
-3. **test_join_two_df_by_SQL.py**: Tests the `join_two_df_by_SQL` function.
+1. \*\*test.py
 
 ### Running Unit Tests
 
@@ -76,4 +74,4 @@ To run the unit tests, follow these steps:
 
 2. Navigate to the project folder in your terminal.
 
-3. Run the following command to execute the tests:
+3. Run the following command to execute the tests: `pytest test.py`
