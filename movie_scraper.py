@@ -5,7 +5,6 @@ import time
 import re
 import pandasql as psql
 from config import DB_CONFIG, TEST_MODE
-import psycopg2
 from sqlalchemy import create_engine
 from bokeh.plotting import figure, show
 from bokeh.models import HoverTool, ColumnDataSource
@@ -143,48 +142,48 @@ def join_two_df_by_SQL(df1, df2):
     return merged_data
 
 
-def df_to_SQL(df):  # Function to insert DataFrame into PostgreSQL database
-    # Extracting database connection details from the configuration
-    dbname = DB_CONFIG['dbname']
-    user = DB_CONFIG['user']
-    password = DB_CONFIG['password']
-    host = DB_CONFIG['host']
-    port = DB_CONFIG['port']
+# def df_to_SQL(df):  # Function to insert DataFrame into PostgreSQL database
+#     # Extracting database connection details from the configuration
+#     dbname = DB_CONFIG['dbname']
+#     user = DB_CONFIG['user']
+#     password = DB_CONFIG['password']
+#     host = DB_CONFIG['host']
+#     port = DB_CONFIG['port']
 
-    # Construct the connection string
-    connection_string = f"dbname={dbname} user={user} password={password} host={host} port={port}"
-    # Establish a connection to the PostgreSQL database
-    try:
-        connection = psycopg2.connect(connection_string)
-        print("Connected to the database!")
+#     # Construct the connection string
+#     connection_string = f"dbname={dbname} user={user} password={password} host={host} port={port}"
+#     # Establish a connection to the PostgreSQL database
+#     try:
+#         connection = psycopg2.connect(connection_string)
+#         print("Connected to the database!")
 
-        # Create a SQLAlchemy engine
-        engine = create_engine(
-            f"postgresql+psycopg2://{user}:{password}@{host}:{port}/{dbname}")
+#         # Create a SQLAlchemy engine
+#         engine = create_engine(
+#             f"postgresql+psycopg2://{user}:{password}@{host}:{port}/{dbname}")
 
-        # Insert the DataFrame into the database
-        df.to_sql('st_details', engine, if_exists='replace', index=False)
+#         # Insert the DataFrame into the database
+#         df.to_sql('st_details', engine, if_exists='replace', index=False)
 
-        print("Data inserted into PostgreSQL!")
+#         print("Data inserted into PostgreSQL!")
 
-        # Create a cursor object to execute SQL queries
-        cursor = connection.cursor()
+#         # Create a cursor object to execute SQL queries
+#         cursor = connection.cursor()
 
-        # Example: Execute a simple SQL query
-        cursor.execute("SELECT * FROM st_details")
-        rows = cursor.fetchall()
+#         # Example: Execute a simple SQL query
+#         cursor.execute("SELECT * FROM st_details")
+#         rows = cursor.fetchall()
 
-        print(rows)
+#         print(rows)
 
-    except Exception as e:
-        print(f"Error: {e}")
+#     except Exception as e:
+#         print(f"Error: {e}")
 
-    finally:
-        # Close the cursor and connection
-        if connection:
-            cursor.close()
-            connection.close()
-            print("Connection closed.")
+#     finally:
+#         # Close the cursor and connection
+#         if connection:
+#             cursor.close()
+#             connection.close()
+#             print("Connection closed.")
 
 
 def bokeh_plot(df1):
