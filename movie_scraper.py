@@ -137,7 +137,7 @@ def join_two_df_by_SQL(df1, df2):
     result = psql.sqldf(query, locals())
     # Display the result of the SQL join using pandasql
     print("\nResult of SQL Join:")
-    print(result)
+    # print(result)
 
     return merged_data
 
@@ -241,7 +241,7 @@ print(mov_df2)
 
 
 merged_data = join_two_df_by_SQL(mov_df1, mov_df2)
-print("SQL join df1 and df2:")
+print("\nSQL join df1 and df2:")
 print(merged_data)
 
 ###########  cleaning data  ###########
