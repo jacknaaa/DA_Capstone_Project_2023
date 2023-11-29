@@ -248,5 +248,5 @@ print(merged_data)
 ##### *******   2.	Clean and operate on the data while combining them.   *******#####
 
 ##### *******   3.	Visualize / Present your data   *******#####
-bokeh_plot(mov_df1)
+bokeh_plot(merged_data)
 ##### *******   3.	Visualize / Present your data   *******#####
