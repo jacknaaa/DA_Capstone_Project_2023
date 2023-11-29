@@ -17,7 +17,7 @@ Follow these steps to set up the project on your local machine:
 5. Run the movie_scraper.py script.
 6. bokeh_plot should shows on your defult browser
 
-On mac you may need to install 
+On mac you may need to install
 `brew install python`
 `python3 -m pip install --upgrade setuptools`
 `python3 -m pip install --upgrade pip`
