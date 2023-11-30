@@ -405,4 +405,10 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-.csv
+
+#CSV
+csv/
+*.csv
+#HTML
+html/
+*.html
