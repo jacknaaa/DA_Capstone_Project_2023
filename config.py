@@ -8,4 +8,4 @@ DB_CONFIG = {
 }
 TEST_MODE = "YES"
 CSV_PATH = "data/"
-HTML_PATH = "html/"
+HTML_PATH = "data/"
