@@ -68,7 +68,7 @@ To run the unit tests, follow these steps:
 7. Assumptions:
    Assumes the existence of a config module with specified path variables.
    Assumes the availability of HTML and CSV directories.
-   # In summary, the script automates the retrieval, cleaning, and visualization of data related to popular movies from IMDb and Rotten Tomatoes, providing insights into ratings and release dates. The final output includes both visualizations and structured datasets for further analysis.
+   `In summary, the script automates the retrieval, cleaning, and visualization of data related to popular movies from IMDb and Rotten Tomatoes, providing insights into ratings and release dates. The final output includes both visualizations and structured datasets for further analysis.`
 
 ## Sources:
 
