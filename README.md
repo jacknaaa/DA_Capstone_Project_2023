@@ -34,7 +34,7 @@ Welcome to the Data Analysis Capstone Project for 2023! This project focuses on 
 3. Run the `movie_scraper.py` script.
 4. Open your defult browser to see data visualization.
 
-### Running Unit Tests
+## Running Unit Tests:
 
 We have included three unit tests to ensure the functionality of key functions in this project.
 To run the unit tests, follow these steps:
