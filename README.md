@@ -34,7 +34,6 @@ Welcome to the Data Analysis Capstone Project for 2023! This project focuses on 
 3. Run the `a_movie_scraper.py` script.
 4. Open your defult browser to see data visualization.
 5. Run the `b_matplot_mov_df1.py` script.
-6. Run the `c_matplot_mov_df2.py` script.
 
 ## Running Unit Tests:
 
