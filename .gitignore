@@ -407,6 +407,7 @@ env.bak/
 venv.bak/
 
 #CSV
+data/
 csv/
 *.csv
 #HTML

@@ -8,7 +8,10 @@ from config import CSV_PATH, HTML_PATH
 from sqlalchemy import create_engine
 from bokeh.plotting import figure, show, output_file
 from bokeh.models import HoverTool, ColumnDataSource
-# import os
+import os
+
+if not os.path.exists(CSV_PATH):
+    os.makedirs(CSV_PATH)
 
 # Function to scrape data from the most popular movies page on IMDb
 
@@ -155,7 +158,7 @@ def bokeh_plot(df1):
 
     # set output to static HTML file
     output_file(filename=HTML_PATH+"IMDb_and_Rotten.html",
-                title="Static HTML file")
+                title="Code you 2023")
 
     # Define the plot
     p = figure(title="IMDb's moives shows on Rottentomatoes", y_axis_label='Rating',
