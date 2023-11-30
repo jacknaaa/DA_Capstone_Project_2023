@@ -1,10 +1,13 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import os
+from config import CSV_PATH
 
 
 def matplot_mov_df1():
-    df = pd.DataFrame(pd.read_csv("data\mov_df1.csv"))
+    csv_file = os.path.normpath(CSV_PATH+"mov_df1.csv")
+    df = pd.DataFrame(pd.read_csv(csv_file))
     most_ranking_count = df["Rating"].value_counts()
     plt.figure(figsize=(10, 10))
     plt.pie(most_ranking_count, labels=most_ranking_count.index,
@@ -14,7 +17,8 @@ def matplot_mov_df1():
 
 
 def matplot_mov_df2():
-    df = pd.DataFrame(pd.read_csv("data\mov_df2.csv"))
+    csv_file2 = os.path.normpath(CSV_PATH+"mov_df2.csv")
+    df = pd.DataFrame(pd.read_csv(csv_file2))
     df['Start_Date'] = pd.to_datetime(df['Start_Date'], format='%b %d, %Y')
     date_counts = df['Start_Date'].value_counts().sort_index()
     sns.set(style="whitegrid")
