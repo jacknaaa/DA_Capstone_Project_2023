@@ -14,7 +14,7 @@ Welcome to the Data Analysis Capstone Project for 2023! This project focuses on 
    2.1 Create virtual environment on Windows by entering
 
 - Windows (GitBash): `python -m venv venv`
-- Linux/Mac (Terminal): `python3 -m venv venv
+- Linux/Mac (Terminal): `python3 -m venv venv`
 
   2.2 Activate venv by entering:
 
@@ -31,8 +31,10 @@ Welcome to the Data Analysis Capstone Project for 2023! This project focuses on 
 - Windows (GitBash): `deactivate`
 - Linux/Mac (Terminal): `deactivate`
 
-3. Run the `movie_scraper.py` script.
+3. Run the `a_movie_scraper.py` script.
 4. Open your defult browser to see data visualization.
+5. Run the `b_matplot_mov_df1.py` script.
+6. Run the `c_matplot_mov_df2.py` script.
 
 ## Running Unit Tests:
 

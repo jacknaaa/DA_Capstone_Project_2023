@@ -5,13 +5,10 @@ import time
 import re
 import pandasql as psql
 from config import CSV_PATH, HTML_PATH
-from sqlalchemy import create_engine
 from bokeh.plotting import figure, show, output_file
 from bokeh.models import HoverTool, ColumnDataSource
 import os
-import matplotlib.pyplot as plt
-import seaborn as sns
-sns.set(color_codes=True)
+
 
 if not os.path.exists(CSV_PATH):
     os.makedirs(CSV_PATH)
@@ -102,10 +99,11 @@ def scrape_most_popular_movies_rotten_tomatoes():
         mv_start_date = []
         movie_start_dates = [b.get_text(strip=True)
                              for b in soup.select('span[data-qa="discovery-media-list-item-start-date"]')]
-
+        # print(movie_start_dates)
         for movie_start_date in movie_start_dates:
-            # Extract the first 3 characters as the rating
-            mv_start_date.append(movie_start_date[7:])
+            movie_start_date = movie_start_date.replace('Opened ', "")
+            movie_start_date = movie_start_date.replace('Opens ', "")
+            mv_start_date.append(movie_start_date)
 
         # print(mv_start_date)
 
@@ -178,16 +176,6 @@ def bokeh_plot(df1):
     return None
 
 
-def matplot():
-    df = pd.DataFrame(pd.read_csv("data\mov_df1.csv"))
-    most_ranking_count = df["Rating"].value_counts()
-    plt.figure(figsize=(10, 10))
-    plt.pie(most_ranking_count, labels=most_ranking_count.index,
-            autopct='%1.1f%%', startangle=90, colors=sns.color_palette("viridis"))
-    plt.title('Most Ranking in 2023 Categories')
-    plt.show()
-
-
 ##### *******   1.	Loading data.  *******#####
 # Call the function to scrape data for most popular movies IMDb
 mov_df1 = scrape_most_popular_movies_IMDB()
@@ -218,5 +206,4 @@ merged_data.to_csv(CSV_PATH+"merged_data_by_title.csv")
 ##### *******   3.	Visualize / Present your data   *******#####
 mov_df1 = mov_df1.head(50)
 bokeh_plot(merged_data)
-matplot()
 ##### *******   3.	Visualize / Present your data   *******#####
