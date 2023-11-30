@@ -45,6 +45,38 @@ To run the unit tests, follow these steps:
 
 3. Run the following command to execute the tests: `pytest test.py`
 
+## Features:
+
+1. Web Scraping:
+   Scrapes data from the most popular movies pages on IMDb and Rotten Tomatoes.
+   Extracts information such as movie titles, ratings, vote counts, and start dates
+2. Data Cleaning and Processing:
+   Cleans the scraped data, removes duplicates, and performs some data operations.
+   Joins the data from IMDb and Rotten Tomatoes based on movie titles using both pandas and pandasql.
+3. Data Visualization:
+   Utilizes Bokeh to create a horizontal bar plot showcasing IMDb's most popular movies on Rotten Tomatoes.
+   Generates a pie chart using Matplotlib and Seaborn to visualize the distribution of movie ratings.
+4. Output:
+   Saves the scraped data and the joined dataset to CSV files.
+   Creates HTML files containing the raw HTML content of the scraped pages for future reference.
+5. Structure:
+   The script is structured into functions, making it modular and easy to understand.
+   Each major step (scraping, cleaning, visualization) is encapsulated within its own function.
+6. Documentation:
+   Includes comments to explain specific sections of the code.
+   Prints relevant information, such as the scraped data and the result of the SQL join.
+7. Assumptions:
+   Assumes the existence of a config module with specified path variables.
+   Assumes the availability of HTML and CSV directories.
+   \*\*In summary, the script automates the retrieval, cleaning, and visualization of data related to popular movies from IMDb and Rotten Tomatoes, providing insights into ratings and release dates. The final output includes both visualizations and structured datasets for further analysis.
+
+## Sources:
+
+URL of the most popular movies page on IMDb
+'https://www.imdb.com/chart/moviemeter/'
+Rotten Tomatoes Movies in Theaters (2023)
+'https://www.rottentomatoes.com/browse/movies_in_theaters/?page=4'
+
 ## Data Dictionary
 
 ### scrape_most_popular_movies_IMDB Function Output (mov_df1)

@@ -9,6 +9,9 @@ from sqlalchemy import create_engine
 from bokeh.plotting import figure, show, output_file
 from bokeh.models import HoverTool, ColumnDataSource
 import os
+import matplotlib.pyplot as plt
+import seaborn as sns
+sns.set(color_codes=True)
 
 if not os.path.exists(CSV_PATH):
     os.makedirs(CSV_PATH)
@@ -72,12 +75,7 @@ def scrape_most_popular_movies_IMDB():
 
 # Function to scrape data from the most popular movies page on Rotten Tomatoes
 def scrape_most_popular_movies_rotten_tomatoes():
-    """
-    Scrape data from the most popular movies page on rottentomatoes.
-
-    Returns:
-    pandas.DataFrame: DataFrame containing movie titles and start_date.
-    """
+    # Rotten Tomatoes
     url = 'https://www.rottentomatoes.com/browse/movies_in_theaters/?page=4'
 
     # Send a GET request to the URL with a user-agent header to mimic a web browser
@@ -180,6 +178,16 @@ def bokeh_plot(df1):
     return None
 
 
+def matplot():
+    df = pd.DataFrame(pd.read_csv("data\mov_df1.csv"))
+    most_ranking_count = df["Rating"].value_counts()
+    plt.figure(figsize=(10, 10))
+    plt.pie(most_ranking_count, labels=most_ranking_count.index,
+            autopct='%1.1f%%', startangle=90, colors=sns.color_palette("viridis"))
+    plt.title('Most Ranking in 2023 Categories')
+    plt.show()
+
+
 ##### *******   1.	Loading data.  *******#####
 # Call the function to scrape data for most popular movies IMDb
 mov_df1 = scrape_most_popular_movies_IMDB()
@@ -210,4 +218,5 @@ merged_data.to_csv(CSV_PATH+"merged_data_by_title.csv")
 ##### *******   3.	Visualize / Present your data   *******#####
 mov_df1 = mov_df1.head(50)
 bokeh_plot(merged_data)
+matplot()
 ##### *******   3.	Visualize / Present your data   *******#####
