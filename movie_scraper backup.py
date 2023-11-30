@@ -4,15 +4,13 @@ import pandas as pd
 import time
 import re
 import pandasql as psql
-from config import DB_CONFIG, CSV_PATH
+from config import DB_CONFIG, TEST_MODE
 from sqlalchemy import create_engine
 from bokeh.plotting import figure, show
 from bokeh.models import HoverTool, ColumnDataSource
-# import os
+
 
 # Function to scrape data from the most popular movies page on IMDb
-
-
 def scrape_most_popular_movies_IMDB():
     """
     Scrape data from the most popular movies page on IMDb.
@@ -58,7 +56,7 @@ def scrape_most_popular_movies_IMDB():
 
         # Create a Pandas DataFrame from the scraped data
         movie_data = pd.DataFrame(
-            {'Title': movie_titles, 'Rating': rating, 'Vote_count': movie_votecounts})
+            {'Title': movie_titles, 'Rating': rating, 'Vote count': movie_votecounts})
 
         return movie_data
     else:
@@ -75,7 +73,7 @@ def scrape_most_popular_movies_rotten_tomatoes():
     Returns:
     pandas.DataFrame: DataFrame containing movie titles and start_date.
     """
-    url = 'https://www.rottentomatoes.com/browse/movies_in_theaters/?page=4'
+    url = 'https://www.rottentomatoes.com/browse/movies_in_theaters/'
 
     # Send a GET request to the URL with a user-agent header to mimic a web browser
     headers = {
@@ -110,7 +108,7 @@ def scrape_most_popular_movies_rotten_tomatoes():
 
         # Create a Pandas DataFrame from the scraped data
         movie_data = pd.DataFrame(
-            {'Title': movie_titles, 'Start_Date': mv_start_date})
+            {'Title': movie_titles, 'Start Date': mv_start_date})
 
         return movie_data
     else:
@@ -131,7 +129,7 @@ def join_two_df_by_SQL(df1, df2):
 
     # Perform a SQL join using pandasql
     query = """
-        SELECT A.*, B.[Start_Date]
+        SELECT A.*, B.[Start Date]
         FROM df1 A
         JOIN df2 B
         ON A.Title = B.Title
@@ -144,6 +142,50 @@ def join_two_df_by_SQL(df1, df2):
     return merged_data
 
 
+# def df_to_SQL(df):  # Function to insert DataFrame into PostgreSQL database
+#     # Extracting database connection details from the configuration
+#     dbname = DB_CONFIG['dbname']
+#     user = DB_CONFIG['user']
+#     password = DB_CONFIG['password']
+#     host = DB_CONFIG['host']
+#     port = DB_CONFIG['port']
+
+#     # Construct the connection string
+#     connection_string = f"dbname={dbname} user={user} password={password} host={host} port={port}"
+#     # Establish a connection to the PostgreSQL database
+#     try:
+#         connection = psycopg2.connect(connection_string)
+#         print("Connected to the database!")
+
+#         # Create a SQLAlchemy engine
+#         engine = create_engine(
+#             f"postgresql+psycopg2://{user}:{password}@{host}:{port}/{dbname}")
+
+#         # Insert the DataFrame into the database
+#         df.to_sql('st_details', engine, if_exists='replace', index=False)
+
+#         print("Data inserted into PostgreSQL!")
+
+#         # Create a cursor object to execute SQL queries
+#         cursor = connection.cursor()
+
+#         # Example: Execute a simple SQL query
+#         cursor.execute("SELECT * FROM st_details")
+#         rows = cursor.fetchall()
+
+#         print(rows)
+
+#     except Exception as e:
+#         print(f"Error: {e}")
+
+#     finally:
+#         # Close the cursor and connection
+#         if connection:
+#             cursor.close()
+#             connection.close()
+#             print("Connection closed.")
+
+
 def bokeh_plot(df1):
     # Convert 'Rating' to numeric, handle errors
     df1['Rating'] = pd.to_numeric(df1['Rating'], errors='coerce')
@@ -154,17 +196,16 @@ def bokeh_plot(df1):
     source = ColumnDataSource(df1)
 
     # Define the plot
-    p = figure(title="IMDb's moives shows on Rottentomatoes", y_axis_label='Rating',
+    p = figure(title='IMDb Top 100 Movies', y_axis_label='Rating',
                x_axis_label='Title', y_range=df1['Title'][::-1])
 
     # Add a horizontal bar plot
-    p.hbar(y='Title', right='Rating', height=0.7,
+    p.hbar(y='Title', right='Rating', height=0.9,
            source=source, line_color="white", color="blue")
 
     # Add hover tool for additional information
     hover = HoverTool()
-    hover.tooltips = [('Title', '@Title'), ('Rating', '@Rating'),
-                      ('Vote Count', '@Vote_count'), ('Start Date', '@Start_Date')]
+    hover.tooltips = [('Title', '@Title'), ('Rating', '@Rating')]
     p.add_tools(hover)
 
     # Show the plot
@@ -178,29 +219,34 @@ def bokeh_plot(df1):
 mov_df1 = scrape_most_popular_movies_IMDB()
 print("Scrape data for most popular movies IMDb")
 print(mov_df1)
-# os.mkdir(CSV_PATH)
-mov_df1.to_csv(CSV_PATH+"mov_df1.csv")
-mov_df1 = mov_df1.drop_duplicates(subset='Title')
 
 # Call the function to scrape data for most popular movies
 mov_df2 = scrape_most_popular_movies_rotten_tomatoes()
 print("Scrape data for most popular movies Rotten Tomatoes")
 print(mov_df2)
-mov_df2.to_csv(CSV_PATH+"mov_df2.csv")
 
 ##### *******   1.	Loading data.  *******#####
 
 ##### *******   2.	Clean and operate on the data while combining them.   *******#####
 
+###########  cleaning data  ###########
+# replacing na values in college with No college
+# popular_mov_df1['Vote count'].fillna("", inplace=True)
+# replacing na values in college with No college
+# popular_mov_df['Vote count'].fillna(method='bfill', inplace=True)
+
+# print(popular_mov_df.info())
+# print(popular_mov_df.isnull().sum())
+# print(popular_mov_df['Vote count'])
+
+
 merged_data = join_two_df_by_SQL(mov_df1, mov_df2)
 print("\nSQL join df1 and df2:")
 print(merged_data)
-merged_data.to_csv(CSV_PATH+"merged_data_by_title.csv")
 
 ###########  cleaning data  ###########
 ##### *******   2.	Clean and operate on the data while combining them.   *******#####
 
 ##### *******   3.	Visualize / Present your data   *******#####
-mov_df1 = mov_df1.head(50)
 bokeh_plot(merged_data)
 ##### *******   3.	Visualize / Present your data   *******#####

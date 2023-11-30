@@ -7,3 +7,4 @@ DB_CONFIG = {
     'port': '5432'
 }
 TEST_MODE = "YES"
+CSV_PATH = "data/"
