@@ -1,86 +1,35 @@
-# DA_Capstone_Project_2023 [Web Scrapping IMDb, RottenTomatoes and use bokeh to plot data on webbase]
+# IMDb and RottenTomatoes ranking movies
 
 # Overview
 
 Welcome to the Data Analysis Capstone Project for 2023! This project focuses on web scraping data from IMDb and Rotten Tomatoes, utilizing Bokeh for interactive data visualization on a web-based platform.
 
-# Project Setup Guide
+## Instructions:
 
 \*\*\* Note: This project requires an internet connection.
-Follow these steps to set up the project on your local machine:
 
-1. Cloned the repo to your machine, navigate to the project
-   folder in GitBash/Terminal.
-2. Create a virtual environment in the project folder. `python3 -m venv venv` [^1]
-3. Activate the virtual environment. `source venv/Scripts/activate` (Windows OS)
-4. Install the required packages. `pip install -r requirements.txt`
-5. Run the movie_scraper.py script.
-6. bokeh_plot should shows on your defult browser
+1. Cloned the project to your machine.
+2. Create and activate a virtual environment and install the packages listed in the requirements.txt file. (instructions for virtual environment below)
 
-On mac you may need to install
-`brew install python`
-`python3 -m pip install --upgrade setuptools`
-`python3 -m pip install --upgrade pip`
+   2.1 Create virtual environment on Windows by entering:
 
-## Data Dictionary
+   - Windows (GitBash): `python -m venv venv`
+   - Linux/Mac (Terminal): `python3 -m venv venv`
 
-### scrape_most_popular_movies_IMDB Function Output (mov_df1)
+     2.2 Activate venv by entering:
 
-- **Title:** Movie title.
-- **Rating:** Movie rating on IMDb.
-- **Vote count:** Number of votes for the movie on IMDb.
+   - Windows (GitBash): `sourve venv/Scripts/activate`
+   - Linux/Mac (Terminal): `source venv/bin/activate`
 
-### scrape_most_popular_movies_rotten_tomatoes Function Output (mov_df2)
+     2.3 Run requirements.txt to install needed libraries:
 
-- **Title:** Movie title.
-- **Start Date:** Release start date of the movie on Rotten Tomatoes.
+   - Windows (GitBash): `pip install -r requirements.txt`
+   - Linux/Mac (Terminal): `pip install -r requirements.txt`
 
-### join_two_df_by_SQL Function Output (merged_data)
+     2.4 When done in venv, deactivate by entering:
 
-- **Title:** Movie title.
-- **Rating:** Movie rating on IMDb.
-- **Vote count:** Number of votes for the movie on IMDb.
-- **Start Date:** Release start date of the movie on Rotten Tomatoes.
+   - Windows (GitBash): `deactivate`
+   - Linux/Mac (Terminal): `deactivate`
 
-### bokeh_plot Function Input (df1)
-
-- **Title:** Movie title.
-- **Rating:** Movie rating on IMDb.
-
-### Virutal Environment Instructions
-
-1. After you have cloned the repo to your machine, navigate to the project
-   folder in GitBash/Terminal.
-1. Create a virtual environment in the project folder. `python3 -m venv venv` [^1]
-1. Activate the virtual environment. `source venv/bin/activate`
-1. Install the required packages. `pip install -r requirements.txt`
-1. When you are done working on your repo, deactivate the virtual environment.
-   `deactivate`
-
-[^1]: GitBash on Windows uses “python” instead of “python3”
-
-# Note
-
-!!!PIP Uninstall All Packages
-
-1. pip freeze > requirements.txt
-2. pip uninstall -r requirements.txt This helps to uninstall packages one by one.
-3. pip uninstall -r requirements.txt -y This helps to delete all the packages at once.
-
-## Unit Tests
-
-### Writing Unit Tests
-
-We have included three unit tests to ensure the functionality of key functions in this project. You can find these tests in the `tests` folder:
-
-1. \*\*test.py
-
-### Running Unit Tests
-
-To run the unit tests, follow these steps:
-
-1. Make sure your virtual environment is activated (if not, refer to the Virtual Environment Instructions in the README).
-
-2. Navigate to the project folder in your terminal.
-
-3. Run the following command to execute the tests: `pytest test.py`
+3. Run the `movie_scraper.py` script.
+4. Open your defult browser to see data visualization.
