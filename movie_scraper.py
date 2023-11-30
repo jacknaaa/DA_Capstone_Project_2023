@@ -4,9 +4,9 @@ import pandas as pd
 import time
 import re
 import pandasql as psql
-from config import DB_CONFIG, CSV_PATH
+from config import CSV_PATH, HTML_PATH
 from sqlalchemy import create_engine
-from bokeh.plotting import figure, show
+from bokeh.plotting import figure, show, output_file
 from bokeh.models import HoverTool, ColumnDataSource
 # import os
 
@@ -35,9 +35,9 @@ def scrape_most_popular_movies_IMDB():
         soup = BeautifulSoup(response.text, 'html.parser')
 
         # write soup file to .html
-        # file1 = open("output_imdb.html", "wb")
-        # file1.write(soup.encode('utf-8'))
-        # file1.close()
+        file1 = open(HTML_PATH+"output_imdb.html", "wb")
+        file1.write(soup.encode('utf-8'))
+        file1.close()
 
         # Extract movie titles from the HTML using CSS selectors
         movie_titles = [a.get_text(strip=True)
@@ -89,9 +89,9 @@ def scrape_most_popular_movies_rotten_tomatoes():
         soup = BeautifulSoup(response.text, 'html.parser')
 
         # write soup file to .html
-        # file1 = open("output_rtt.html", "wb")
-        # file1.write(soup.encode('utf-8'))
-        # file1.close()
+        file1 = open(HTML_PATH+"output_rtt.html", "wb")
+        file1.write(soup.encode('utf-8'))
+        file1.close()
 
         # Extract movie titles from the HTML using CSS selectors
         movie_titles = [a.get_text(strip=True)
@@ -152,6 +152,10 @@ def bokeh_plot(df1):
 
     # Create a Bokeh scatter plot
     source = ColumnDataSource(df1)
+
+    # set output to static HTML file
+    output_file(filename=HTML_PATH+"IMDb_and_Rotten.html",
+                title="Static HTML file")
 
     # Define the plot
     p = figure(title="IMDb's moives shows on Rottentomatoes", y_axis_label='Rating',
