@@ -28,9 +28,27 @@ def matplot_mov_df2():
     plt.xlabel("Start Date")
     plt.ylabel("Event Count")
     plt.xticks(rotation=45)
+    plt.show(block=False)
+
+
+def matplot_merged_data():
+    csv_file3 = os.path.normpath(CSV_PATH+"merged_data_by_title.csv")
+    data = pd.DataFrame(pd.read_csv(csv_file3))
+    sns.set(style="whitegrid")
+    # Create a bar chart
+    plt.figure(figsize=(12, 8))
+    sns.barplot(x="Title", y="Rating", data=data, palette="viridis")
+    # plt.bar(data["Title"], data["Rating"], color='skyblue')
+    plt.title('Movie Ratings')
+    plt.xlabel('Movie Title')
+    plt.ylabel('Rating')
+    # Rotate x-axis labels for better visibility
+    plt.xticks(rotation=45, ha='right')
+    plt.tight_layout()
     plt.show()
 
 
 # Display both plots simultaneously
 matplot_mov_df1()
 matplot_mov_df2()
+matplot_merged_data()
