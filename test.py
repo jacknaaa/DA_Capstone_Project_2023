@@ -1,5 +1,5 @@
 import pytest
-from movie_scraper import *
+from a_movie_scraper import *
 
 
 def test_scrape_most_popular_movies_IMDB():

@@ -42,18 +42,27 @@ def scrape_most_popular_movies_IMDB():
         file1.write(soup.encode('utf-8'))
         file1.close()
 
+        # print(soup)
+
         # Extract movie titles from the HTML using CSS selectors
         movie_titles = [a.get_text(strip=True)
                         for a in soup.select('a.ipc-title-link-wrapper h3.ipc-title__text')]
+
         # Exclude the last 7 items as they are not movies
         movie_titles = movie_titles[:-7]
+
+        movie_titles = movie_titles[:86]
+
+        # print(movie_titles)
 
         pattern = re.compile(r'\((.*?)\)')
         rating = []
         movie_ratings = [b.get_text(strip=True)
-                         for b in soup.select('span.sc-479faa3c-1 div.jlKVfJ')]
+                         for b in soup.select('span.ipc-rating-star--imdb')]
         for movie_rating in movie_ratings:
             rating.append(movie_rating[:3])
+
+        # print(len(movie_ratings))
 
         # Extract vote counts from the movie ratings using regular expressions
         movie_votecounts = [pattern.search(item).group(1) if pattern.search(
@@ -179,9 +188,8 @@ def bokeh_plot(df1):
 ##### *******   1.	Loading data.  *******#####
 # Call the function to scrape data for most popular movies IMDb
 mov_df1 = scrape_most_popular_movies_IMDB()
-print("Scrape data for most popular movies IMDb")
+# print("Scrape data for most popular movies IMDb")
 print(mov_df1)
-# os.mkdir(CSV_PATH)
 mov_df1.to_csv(CSV_PATH+"mov_df1.csv")
 mov_df1 = mov_df1.drop_duplicates(subset='Title')
 
