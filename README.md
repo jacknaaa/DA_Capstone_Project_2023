@@ -18,7 +18,7 @@ Welcome to the Data Analysis Capstone Project for 2023! This project focuses on 
 
   2.2 Activate venv by entering:
 
-- Windows (GitBash): `sourve venv/Scripts/activate`
+- Windows (GitBash): `source venv/Scripts/activate`
 - Linux/Mac (Terminal): `source venv/bin/activate`
 
   2.3 Run requirements.txt to install needed libraries:
