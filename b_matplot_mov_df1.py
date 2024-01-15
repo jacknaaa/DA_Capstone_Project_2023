@@ -8,6 +8,9 @@ from config import CSV_PATH
 def matplot_mov_df1():
     csv_file = os.path.normpath(CSV_PATH+"mov_df1.csv")
     df = pd.DataFrame(pd.read_csv(csv_file))
+    df = df.sort_values(by=['Rating'], ascending=False)
+    df = df[:10]
+    # print(df)
     most_ranking_count = df["Rating"].value_counts()
     plt.figure(figsize=(10, 10))
     plt.pie(most_ranking_count, labels=most_ranking_count.index,

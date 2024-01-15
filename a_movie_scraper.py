@@ -25,18 +25,19 @@ def scrape_most_popular_movies_IMDB():
     """
     # URL of the most popular movies page on IMDb
     url = 'https://www.imdb.com/chart/moviemeter/'
-
     # Send a GET request to the URL with a user-agent header to mimic a web browser
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
     time.sleep(2)  # Sleep for 2 seconds to avoid overloading the server
     response = requests.get(url, headers=headers)
-
     # Check if the request was successful (status code 200)
     if response.status_code == 200:
         # Parse the HTML content of the page using BeautifulSoup
         soup = BeautifulSoup(response.text, 'html.parser')
-
+        # Extract movie titles from the HTML using CSS selectors
+        movie_titles = [a.get_text(strip=True)
+                        for a in soup.select('a.ipc-title-link-wrapper h3.ipc-title__text')]
+        
         # write soup file to .html
         file1 = open(HTML_PATH+"output_imdb.html", "wb")
         file1.write(soup.encode('utf-8'))
@@ -44,29 +45,40 @@ def scrape_most_popular_movies_IMDB():
 
         # print(soup)
 
-        # Extract movie titles from the HTML using CSS selectors
-        movie_titles = [a.get_text(strip=True)
-                        for a in soup.select('a.ipc-title-link-wrapper h3.ipc-title__text')]
+        
+        # print(len(movie_titles))
 
         # Exclude the last 7 items as they are not movies
         movie_titles = movie_titles[:-7]
-
-        movie_titles = movie_titles[:86]
-
+        # print(len(movie_titles))
+        movie_titles = movie_titles[:70]
+        # print(len(movie_titles))
         # print(movie_titles)
 
         pattern = re.compile(r'\((.*?)\)')
         rating = []
+
+        
+
         movie_ratings = [b.get_text(strip=True)
                          for b in soup.select('span.ipc-rating-star--imdb')]
+        
         for movie_rating in movie_ratings:
             rating.append(movie_rating[:3])
 
-        # print(len(movie_ratings))
+        rating = rating[:70]
+
+        # print(movie_ratings)
+        # print(len(rating))
+
 
         # Extract vote counts from the movie ratings using regular expressions
         movie_votecounts = [pattern.search(item).group(1) if pattern.search(
             item) else None for item in movie_ratings]
+
+        movie_votecounts = movie_votecounts[:70]
+        # print(movie_votecounts)
+        # print(len(movie_votecounts))
 
         # Create a Pandas DataFrame from the scraped data
         movie_data = pd.DataFrame(
@@ -157,22 +169,17 @@ def bokeh_plot(df1):
     df1['Rating'] = pd.to_numeric(df1['Rating'], errors='coerce')
     # Drop rows with missing or invalid ratings
     df1 = df1.dropna(subset=['Rating'])
-
     # Create a Bokeh scatter plot
     source = ColumnDataSource(df1)
-
     # set output to static HTML file
     output_file(filename=HTML_PATH+"IMDb_and_Rotten.html",
                 title="Code you 2023")
-
     # Define the plot
-    p = figure(title="IMDb's moives shows on Rottentomatoes", y_axis_label='Rating',
-               x_axis_label='Title', y_range=df1['Title'][::-1])
-
+    p = figure(title="IMDb's moives shows on Rottentomatoes", y_axis_label='Movies',
+               x_axis_label='Rating', y_range=df1['Title'][::-1])
     # Add a horizontal bar plot
     p.hbar(y='Title', right='Rating', height=0.7,
            source=source, line_color="white", color="blue")
-
     # Add hover tool for additional information
     hover = HoverTool()
     hover.tooltips = [('Title', '@Title'), ('Rating', '@Rating'),
@@ -188,10 +195,11 @@ def bokeh_plot(df1):
 ##### *******   1.	Loading data.  *******#####
 # Call the function to scrape data for most popular movies IMDb
 mov_df1 = scrape_most_popular_movies_IMDB()
-# print("Scrape data for most popular movies IMDb")
-print(mov_df1)
-mov_df1.to_csv(CSV_PATH+"mov_df1.csv")
 mov_df1 = mov_df1.drop_duplicates(subset='Title')
+mov_df1.to_csv(CSV_PATH+"mov_df1.csv")
+
+print("Scrape data for most popular movies IMDb")
+print(mov_df1)
 
 # Call the function to scrape data for most popular movies
 mov_df2 = scrape_most_popular_movies_rotten_tomatoes()
