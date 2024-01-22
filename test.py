@@ -5,7 +5,9 @@ from a_movie_scraper import *
 def test_scrape_most_popular_movies_IMDB():
     # Add your test cases here
     result = scrape_most_popular_movies_IMDB()
+    print(len(result))
     assert len(result) > 0, "No data scraped from IMDb"
+    
 
 
 def test_scrape_most_popular_movies_rotten_tomatoes():
