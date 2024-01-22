@@ -7,6 +7,7 @@ import pandasql as psql
 from config import CSV_PATH, HTML_PATH
 from bokeh.plotting import figure, show, output_file
 from bokeh.models import HoverTool, ColumnDataSource
+# from bokeh.io import output_notebook
 import os
 
 
@@ -30,6 +31,7 @@ def scrape_most_popular_movies_IMDB():
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
     time.sleep(2)  # Sleep for 2 seconds to avoid overloading the server
     response = requests.get(url, headers=headers)
+
     # Check if the request was successful (status code 200)
     if response.status_code == 200:
         # Parse the HTML content of the page using BeautifulSoup
@@ -43,11 +45,6 @@ def scrape_most_popular_movies_IMDB():
         file1.write(soup.encode('utf-8'))
         file1.close()
 
-        # print(soup)
-
-        
-        # print(len(movie_titles))
-
         # Exclude the last 7 items as they are not movies
         movie_titles = movie_titles[:-7]
         # print(len(movie_titles))
@@ -58,8 +55,6 @@ def scrape_most_popular_movies_IMDB():
         pattern = re.compile(r'\((.*?)\)')
         rating = []
 
-        
-
         movie_ratings = [b.get_text(strip=True)
                          for b in soup.select('span.ipc-rating-star--imdb')]
         
@@ -68,17 +63,11 @@ def scrape_most_popular_movies_IMDB():
 
         rating = rating[:70]
 
-        # print(movie_ratings)
-        # print(len(rating))
-
-
         # Extract vote counts from the movie ratings using regular expressions
         movie_votecounts = [pattern.search(item).group(1) if pattern.search(
             item) else None for item in movie_ratings]
 
         movie_votecounts = movie_votecounts[:70]
-        # print(movie_votecounts)
-        # print(len(movie_votecounts))
 
         # Create a Pandas DataFrame from the scraped data
         movie_data = pd.DataFrame(
@@ -146,8 +135,8 @@ def join_two_df_by_SQL(df1, df2):
     merged_data = pd.merge(df1, df2, on='Title', how='inner')
 
     # Display the merged DataFrame
-    print("Merged Data:")
-    print(merged_data)
+    # print("Merged Data:")
+    # print(merged_data)
 
     # Perform a SQL join using pandasql
     query = """
@@ -158,7 +147,7 @@ def join_two_df_by_SQL(df1, df2):
     """
     result = psql.sqldf(query, locals())
     # Display the result of the SQL join using pandasql
-    print("\nResult of SQL Join:")
+    # print("\nResult of SQL Join:")
     # print(result)
 
     return merged_data
@@ -174,6 +163,7 @@ def bokeh_plot(df1):
     # set output to static HTML file
     output_file(filename=HTML_PATH+"IMDb_and_Rotten.html",
                 title="Code you 2023")
+    # output_notebook()
     # Define the plot
     p = figure(title="IMDb's moives shows on Rottentomatoes", y_axis_label='Movies',
                x_axis_label='Rating', y_range=df1['Title'][::-1])
@@ -185,41 +175,40 @@ def bokeh_plot(df1):
     hover.tooltips = [('Title', '@Title'), ('Rating', '@Rating'),
                       ('Vote Count', '@Vote_count'), ('Start Date', '@Start_Date')]
     p.add_tools(hover)
-
     # Show the plot
     show(p)
 
     return None
 
-
 ##### *******   1.	Loading data.  *******#####
 # Call the function to scrape data for most popular movies IMDb
+# url_imdb = "https://www.imdb.com/chart/moviemeter/"
+# css_imdb_title = 'a.ipc-title-link-wrapper h3.ipc-title__text'
+# css_imdb_rating = 'span.ipc-rating-star--imdb'
 mov_df1 = scrape_most_popular_movies_IMDB()
-mov_df1 = mov_df1.drop_duplicates(subset='Title')
-mov_df1.to_csv(CSV_PATH+"mov_df1.csv")
-
-print("Scrape data for most popular movies IMDb")
-print(mov_df1)
+# mov_df1 = mov_df1.drop_duplicates(subset='Title')
+# mov_df1.to_csv(CSV_PATH+"mov_df1.csv")
+# print("Scrape data for most popular movies IMDb")
+# print(mov_df1)
 
 # Call the function to scrape data for most popular movies
-mov_df2 = scrape_most_popular_movies_rotten_tomatoes()
-print("Scrape data for most popular movies Rotten Tomatoes")
-print(mov_df2)
-mov_df2.to_csv(CSV_PATH+"mov_df2.csv")
+# mov_df2 = scrape_most_popular_movies_rotten_tomatoes()
+# print("Scrape data for most popular movies Rotten Tomatoes")
+# print(mov_df2)
+# mov_df2.to_csv(CSV_PATH+"mov_df2.csv")
 
 ##### *******   1.	Loading data.  *******#####
 
 ##### *******   2.	Clean and operate on the data while combining them.   *******#####
-
-merged_data = join_two_df_by_SQL(mov_df1, mov_df2)
-print("\nSQL join df1 and df2:")
-print(merged_data)
-merged_data.to_csv(CSV_PATH+"merged_data_by_title.csv")
+# merged_data = join_two_df_by_SQL(mov_df1, mov_df2)
+# print("\nSQL join df1 and df2:")
+# print(merged_data)
+# merged_data.to_csv(CSV_PATH+"merged_data_by_title.csv")
 
 ###########  cleaning data  ###########
 ##### *******   2.	Clean and operate on the data while combining them.   *******#####
 
 ##### *******   3.	Visualize / Present your data   *******#####
-mov_df1 = mov_df1.head(50)
-bokeh_plot(merged_data)
+# mov_df1 = mov_df1.head(50)
+# bokeh_plot(merged_data)
 ##### *******   3.	Visualize / Present your data   *******#####

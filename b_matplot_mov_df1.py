@@ -22,6 +22,9 @@ def matplot_mov_df1():
 def matplot_mov_df2():
     csv_file2 = os.path.normpath(CSV_PATH+"mov_df2.csv")
     df = pd.DataFrame(pd.read_csv(csv_file2))
+    df = df.sort_values(by=['Start_Date'])
+    df = df.head(70)
+    # print(df.head(50))
     df['Start_Date'] = pd.to_datetime(df['Start_Date'], format='%b %d, %Y')
     date_counts = df['Start_Date'].value_counts().sort_index()
     sns.set(style="whitegrid")
@@ -30,13 +33,16 @@ def matplot_mov_df2():
     plt.title("Event Counts by Start Date")
     plt.xlabel("Start Date")
     plt.ylabel("Event Count")
-    plt.xticks(rotation=45)
-    plt.show(block=False)
+    plt.xticks(rotation=35)
+    # plt.show(block=False)
+    plt.show()
 
 
 def matplot_merged_data():
     csv_file3 = os.path.normpath(CSV_PATH+"merged_data_by_title.csv")
     data = pd.DataFrame(pd.read_csv(csv_file3))
+    data = data.sort_values(by=['Start_Date'])
+    # print(data)
     sns.set(style="whitegrid")
     # Create a bar chart
     plt.figure(figsize=(12, 8))
@@ -52,6 +58,6 @@ def matplot_merged_data():
 
 
 # Display both plots simultaneously
-matplot_mov_df1()
+# matplot_mov_df1()
 matplot_mov_df2()
-matplot_merged_data()
+# matplot_merged_data()
