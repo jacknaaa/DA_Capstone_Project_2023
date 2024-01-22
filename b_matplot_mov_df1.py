@@ -34,8 +34,8 @@ def matplot_mov_df2():
     plt.xlabel("Start Date")
     plt.ylabel("Event Count")
     plt.xticks(rotation=35)
-    # plt.show(block=False)
-    plt.show()
+    plt.show(block=False)
+    # plt.show()
 
 
 def matplot_merged_data():
@@ -58,6 +58,6 @@ def matplot_merged_data():
 
 
 # Display both plots simultaneously
-# matplot_mov_df1()
+matplot_mov_df1()
 matplot_mov_df2()
-# matplot_merged_data()
+matplot_merged_data()
